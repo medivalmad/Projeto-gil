@@ -1,0 +1,237 @@
+Construindo um Projeto Ágil no GitHub: Da Gestão ao Controle de Qualidade (Versão Humanizada)
+1. Sobre o Projeto
+
+Imagine um quadro cheio de post-its coloridos grudados na parede. Alguns caem, outros mudam de lugar, mas todos contam uma história. É mais ou menos assim que nasce este projeto.
+
+A TechFlow Solutions, uma empresa fictícia (mas bem pé no chão), foi chamada para desenvolver um Sistema de Gerenciamento de Tarefas Ágil para uma startup de logística. O pedido era claro: organizar o caos, dar visibilidade ao trabalho e ajudar o time a focar no que realmente importa. Sem firula, direto ao ponto.
+
+O sistema permite:
+
+Criar, visualizar, atualizar e excluir tarefas
+
+Acompanhar o andamento do trabalho em tempo real
+
+Destacar tarefas críticas (aquelas que piscam em vermelho na cabeça do gestor)
+
+Ter uma noção clara de como o time está performando
+
+Tudo isso foi pensado usando conceitos de Engenharia de Software e Metodologias Ágeis, com o GitHub funcionando como o coração pulsante do projeto.
+
+2. Como Trabalhamos (Metodologia)
+
+Aqui nada de planos engessados. A ideia foi trabalhar de forma ágil, como quem ajusta o leme do barco conforme o vento muda.
+
+Usamos práticas inspiradas em Scrum e Kanban, com:
+
+Entregas pequenas, mas constantes
+
+Organização visual das tarefas
+
+Comunicação clara (ou pelo menos tentamos)
+
+Testes para evitar aquele famoso “ops, quebrou em produção”
+
+O quadro Kanban no GitHub Projects foi dividido em:
+
+A Fazer – tudo que ainda está na fila, esperando sua vez
+
+Em Progresso – tarefas com a mão na massa
+
+Concluído – missão cumprida, pode comemorar 🎉
+
+3. Organização do Repositório
+
+O repositório foi organizado como uma casa bem arrumada: cada coisa no seu lugar, nada jogado no canto.
+
+techflow-task-manager/
+│
+├── README.md
+├── src/
+│   ├── app.py
+│   └── task_manager.py
+├── tests/
+│   └── test_tasks.py
+├── requirements.txt
+└── .github/
+    └── workflows/
+        └── ci.yml
+4. O Sistema na Prática (CRUD de Tarefas)
+Tecnologia Utilizada
+
+Python 3 — simples, direto e sem dor de cabeça
+
+O sistema funciona como uma pequena central de comando. Cada tarefa nasce, cresce, muda de status e, quando chega a hora, é removida. Nada de apego excessivo.
+
+Arquivo: src/task_manager.py
+class TaskManager:
+    def __init__(self):
+        self.tasks = []
+
+
+    def create_task(self, title, priority):
+        task = {
+            "id": len(self.tasks) + 1,
+            "title": title,
+            "priority": priority,
+            "status": "A Fazer"
+        }
+        self.tasks.append(task)
+        return task
+
+
+    def list_tasks(self):
+        return self.tasks
+
+
+    def update_task(self, task_id, new_status):
+        for task in self.tasks:
+            if task["id"] == task_id:
+                task["status"] = new_status
+                return task
+        return None
+
+
+    def delete_task(self, task_id):
+        self.tasks = [t for t in self.tasks if t["id"] != task_id]
+Arquivo: src/app.py
+from task_manager import TaskManager
+
+
+manager = TaskManager()
+manager.create_task("Implementar login", "Alta")
+manager.create_task("Criar dashboard", "Média")
+
+
+for task in manager.list_tasks():
+    print(task)
+5. Testes Automatizados (Porque Confiar é Bom, Testar é Melhor)
+
+Antes de qualquer mudança sair desfilando por aí, ela passa por testes. É como um detector de fumaça: torcemos para nunca precisar, mas quando precisa… salva tudo.
+
+Arquivo: tests/test_tasks.py
+from src.task_manager import TaskManager
+
+
+def test_create_task():
+    manager = TaskManager()
+    task = manager.create_task("Teste", "Alta")
+    assert task["title"] == "Teste"
+    assert task["priority"] == "Alta"
+6. Controle de Qualidade com GitHub Actions
+
+O GitHub Actions funciona como um vigia que nunca dorme. Cada push, cada pull request… plim! Os testes rodam automaticamente.
+
+Pipeline de Integração Contínua
+
+Arquivo: .github/workflows/ci.yml
+
+name: CI Pipeline
+
+
+on: [push, pull_request]
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      run: |
+        pip install pytest
+    - name: Run tests
+      run: |
+        pytest
+7. Histórico de Commits
+
+Os commits contam a história do projeto, passo a passo, sem mistério:
+
+init: criação do repositório e README inicial
+
+docs: definição do escopo e metodologia ágil
+
+feat: estrutura inicial do projeto
+
+feat: implementação do CRUD de tarefas
+
+test: criação de testes unitários
+
+ci: configuração do GitHub Actions
+
+refactor: melhorias no gerenciador de tarefas
+
+docs: atualização das instruções de execução
+
+chore: organização do projeto
+
+docs: simulação de mudança de escopo
+
+8. Gestão de Mudanças (Porque Mudança Acontece)
+
+No meio do caminho, o cliente piscou e disse: “E se a gente destacasse melhor as tarefas críticas?”
+
+Mudança de Escopo
+
+Nova funcionalidade: Destaque visual para tarefas de alta prioridade.
+
+Justificativa: Algumas tarefas não podem esperar. Elas gritam por atenção, e o sistema precisava ouvir.
+
+O que foi feito:
+
+Atualização do Kanban
+
+Ajustes no modelo de dados
+
+Reorganização das prioridades
+
+Nada de pânico. Mudança faz parte do jogo.
+
+9. Respondendo às Questões Norteadoras
+Principais causas de falhas em projetos ágeis
+
+Comunicação truncada
+
+Falta de foco
+
+Tarefas mal priorizadas
+
+O GitHub ajuda trazendo tudo para o mesmo palco: código, tarefas e conversa.
+
+Quem se beneficia do sistema
+
+Gestores: enxergam o todo
+
+Desenvolvedores: sabem o que fazer
+
+Empresas: ganham tempo e produtividade
+
+Por que usar controle de qualidade
+
+Testes automatizados evitam surpresas desagradáveis. Melhor descobrir o erro cedo do que tarde demais.
+
+Desafios das mudanças
+
+Ajustar prazos
+
+Reorganizar tarefas
+
+Alinhar expectativas
+
+A saída? Transparência e adaptação.
+
+Metodologias ágeis na prática
+
+Aqui a teoria saiu do papel. Planejar, executar, revisar e adaptar virou rotina.
+
+10. Como Executar o Projeto
+pip install pytest
+python src/app.py
+11. Conclusão
+
+No fim das contas, este projeto mostra que organização, comunicação e testes não são burocracia — são bússola. Com o GitHub como base e métodos ágeis como guia, o caminho fica mais claro, mesmo quando o cenário muda no meio da estrada.
